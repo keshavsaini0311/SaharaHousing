@@ -31,7 +31,6 @@ export default function Signin() {
       }
       );
       const data =await res.json();
-      console.log(data.stauscode);
       if(data.success===false){
         dispatch(signInFailure(data.message));
         return;
