@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import {Link,useNavigate } from 'react-router-dom'
+import OAuth from '../components/OAuth';
 
 export default function Signup() {
   const [formData,setFormData]=useState({});
@@ -50,6 +51,7 @@ export default function Signup() {
         <input className=' border p-3 rounded-lg'onChange={handleChange} id='email' type="email" name=""placeholder='Email' />
         <input className=' border p-3 rounded-lg'onChange={handleChange} id='password' type="password" name=""placeholder='Password' />
         <button disabled={loading}type='submit' className=' bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-85 disabled:opacity-15'>{loading?'Loading':'Sign Up'}</button>
+        <OAuth/>
       </form>
     <div className=' flex gap-2 mt-5'>
       <p>Have an account</p>
