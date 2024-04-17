@@ -10,6 +10,8 @@ import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/
 export default function Profile() {
   const dispatch = useDispatch()
   const fileRef = useRef()
+  const [error, setError] = useState(null);
+  const [updatesuccess, setUpdateSuccess] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser)
   const[file, setFile] = useState(undefined)
   const [filePerc, setFilePerc] = useState(0)
@@ -69,12 +71,25 @@ export default function Profile() {
       const data = await res.json()
       console.log(data);
       if (data.success === false) {
+
         dispatch(updateUserFailure(data.message))
+        if(error!==null &&data.message.indexOf("duplicate")!==-1){
+          setError("Username or Email already exists")
+        }else{
+          setError(data.message)}
+        setUpdateSuccess(false)
         return
       }
       dispatch(updateUserSuccess(data))
+      setUpdateSuccess(true)
+      setError(null)
     } catch (error) {
       dispatch(updateUserFailure(error.message))
+      if(error!==null &&error.message.indexOf("duplicate key")!==-1){
+        setError("Username or Email already exists")
+      }else{
+      setError(error.message)}
+      setUpdateSuccess(false)
     }
     }
       
@@ -106,6 +121,8 @@ export default function Profile() {
         <span className='text-red-500 cursor-pointer hover:underline'>Delete Account</span>
         <span className=' text-red-500 cursor-pointer hover:underline'>Sign Out</span>
       </div>
+      <p className='text-red-500 mt-5'>{error?error:""}</p>
+      <p className='text-green-500 mt-5'>{updatesuccess?"Updated Successfully":""}</p>
     </div>
   )
 }
