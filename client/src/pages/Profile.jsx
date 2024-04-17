@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {useRef ,useState,useEffect} from 'react'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { app } from '../firebase.js'
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice.js'
+import {  updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure ,signoutUserStart,signoutUserSuccess,signoutUserFailure} from '../redux/user/userSlice.js'
 
 
 export default function Profile() {
@@ -12,14 +12,13 @@ export default function Profile() {
   const fileRef = useRef()
   const [error, setError] = useState(null);
   const [updatesuccess, setUpdateSuccess] = useState(false);
+  const [deletesuccess, setDeleteSuccess] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser)
   const[file, setFile] = useState(undefined)
   const [filePerc, setFilePerc] = useState(0)
   const [fileUploadError, setFileUploadError] = useState(false)
-  const [formdata , setFormdata] = useState({
+  const [formdata , setFormdata] = useState({})
   
-  })
-  //console.log(formdata);
   useEffect(() => {
     if(file){
       handleFileUpload(file)
@@ -93,7 +92,44 @@ export default function Profile() {
     }
     }
       
-  
+    const handleDelete=async()=>{
+      try {
+        dispatch(deleteUserStart())
+        const res =await fetch(`/api/user/delete/${currentUser._id}`, {
+          method: 'DELETE',
+        })
+        const data = await res.json()
+        if (data.success === false) {
+          dispatch(deleteUserFailure(data.message))
+          setError(data.message)
+          setDeleteSuccess(false)
+          return
+        }
+        dispatch(deleteUserSuccess(data))
+        setDeleteSuccess(true)
+        setError(null)
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message))
+        setError(error.message)
+        setDeleteSuccess(false)
+      }
+    }
+
+    const handleSignOut= async()=>{
+      try{
+        dispatch(signoutUserStart())
+        const res=await fetch('/api/auth/signout');
+        const data=await res.json();
+        if(data.success===false){
+          dispatch(signoutUserFailure(data.message));
+          return;
+        }
+        dispatch(signoutUserSuccess(data));
+        console.log(data);
+      }catch(error){
+        dispatch(signoutUserFailure(error.message));
+      }
+    }
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -118,8 +154,8 @@ export default function Profile() {
         <button type='submit' className='border p-3 rounded-lg bg-slate-700 text-white uppercase hover:opacity-80 disabled:opacity-25'>Update</button>
       </form>
       <div className='mt-5 flex justify-between'>
-        <span className='text-red-500 cursor-pointer hover:underline'>Delete Account</span>
-        <span className=' text-red-500 cursor-pointer hover:underline'>Sign Out</span>
+        <span onClick={handleDelete} className='text-red-500 cursor-pointer hover:underline'>Delete Account</span>
+        <span onClick={handleSignOut} className=' text-red-500 cursor-pointer hover:underline'>Sign Out</span>
       </div>
       <p className='text-red-500 mt-5'>{error?error:""}</p>
       <p className='text-green-500 mt-5'>{updatesuccess?"Updated Successfully":""}</p>
