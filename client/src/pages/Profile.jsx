@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {useRef ,useState,useEffect} from 'react'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -152,6 +153,7 @@ export default function Profile() {
         <input onChange={handleChange} defaultValue={currentUser.email} id='email' type="text" placeholder='email' className='border p-3 rounded-lg' />
         <input onChange={handleChange} id='password' type="password" placeholder='password' className='border p-3 rounded-lg' />
         <button type='submit' className='border p-3 rounded-lg bg-slate-700 text-white uppercase hover:opacity-80 disabled:opacity-25'>Update</button>
+        <Link to={'/create-listing'} className='border text-center p-3 content-center rounded-lg bg-green-700 text-white uppercase hover:opacity-80 disabled:opacity-25'>Create Listing</Link>
       </form>
       <div className='mt-5 flex justify-between'>
         <span onClick={handleDelete} className='text-red-500 cursor-pointer hover:underline'>Delete Account</span>
