@@ -19,6 +19,7 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0)
   const [fileUploadError, setFileUploadError] = useState(false)
   const [formdata , setFormdata] = useState({})
+  const [userlistings, setUserListings] = useState([])
   
   useEffect(() => {
     if(file){
@@ -141,12 +142,30 @@ export default function Profile() {
           setError(data.message)
           return
         }
+        setUserListings(data)
         console.log(data)
       } catch (error) {
         setError(error.message)
       }
     }
 
+    const handleDeleteListing=async(id)=>{
+      try {
+        setError(null)
+        const res=await fetch(`/api/listing/delete/${id}`,{
+          method:'DELETE',
+        })
+        const data=await res.json()
+        if(data.success===false){
+          setError(data.message)
+          return
+        }
+        setUserListings((prev)=>prev.filter((listing)=>listing._id!==id))
+        console.log(data)
+      } catch (error) {
+        setError(error.message)
+      }
+    }
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className=' text-center text-3xl font-bold mb-4 text-slate-800 my-7'>Profile</h1>
@@ -177,6 +196,21 @@ export default function Profile() {
       <p className='text-green-500 mt-5'>{updatesuccess?"Updated Successfully":""}</p>
       <button onClick={handleShowListing} className='text-green-700 w-full'>Show Listing</button>
       <p className='text-red-500 mt-5'>{error?error:""}</p>
+      
+      {userlistings&& userlistings.length>0 && 
+      userlistings.map((listing)=>(
+        <div key={listing._id} className="flex  justify-between items-center  border rounded-lg">
+          <Link to={`/listing/${listing._id}`} className='text-slate-700 flex items-center'>
+            <img src={listing.imageurls[0]} alt="Listing" className='h-16 w-16 object-contain rounded-lg m-4' />
+            <span className='font-semibold m-3 hover:underline truncate'>{listing.name}</span>
+          </Link>
+          <div className="flex flex-col p-3">
+            <button onClick={()=>handleDeleteListing(listing._id)} className='text-red-500 uppercase'>Delete</button>
+            <button className='text-green-500 uppercase'>edit</button>
+          </div>
+        </div>
+      ))
+      }
     </div>
   )
 }
