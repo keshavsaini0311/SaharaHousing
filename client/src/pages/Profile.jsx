@@ -132,6 +132,21 @@ export default function Profile() {
       }
     }
 
+    const handleShowListing=async()=>{
+      try {
+        setError(null)
+        const res=await fetch(`/api/user/listings/${currentUser._id}`)
+        const data=await res.json()
+        if(data.success===false){
+          setError(data.message)
+          return
+        }
+        console.log(data)
+      } catch (error) {
+        setError(error.message)
+      }
+    }
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className=' text-center text-3xl font-bold mb-4 text-slate-800 my-7'>Profile</h1>
@@ -159,8 +174,9 @@ export default function Profile() {
         <span onClick={handleDelete} className='text-red-500 cursor-pointer hover:underline'>Delete Account</span>
         <span onClick={handleSignOut} className=' text-red-500 cursor-pointer hover:underline'>Sign Out</span>
       </div>
-      <p className='text-red-500 mt-5'>{error?error:""}</p>
       <p className='text-green-500 mt-5'>{updatesuccess?"Updated Successfully":""}</p>
+      <button onClick={handleShowListing} className='text-green-700 w-full'>Show Listing</button>
+      <p className='text-red-500 mt-5'>{error?error:""}</p>
     </div>
   )
 }
