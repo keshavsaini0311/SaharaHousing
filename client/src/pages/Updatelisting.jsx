@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { app } from '../firebase.js'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function CreaateListing() {
+    const params=useParams()
     const navigate=useNavigate()
     const {currentUser}=useSelector(state=>state.user)
     const [files, setFiles] = React.useState([])
@@ -23,6 +24,21 @@ export default function CreaateListing() {
         parking: false,
         furnished: false,
     })
+
+    useEffect(() => {
+        const fetchlisting = async () => {
+            const listingId = params.listingId
+            const res = await fetch(`/api/listing/get/${listingId}`)
+            const data = await res.json()
+            if (data.success === false) {
+                console.log(data.message)
+                return
+            }
+            setFormData(data)
+        }
+        fetchlisting()
+    }, [])
+    
     const [error, setError] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
     const handleChange = (e) => {
@@ -140,7 +156,7 @@ export default function CreaateListing() {
             }
             setLoading(true);
             setError(false);
-            const res= await fetch('/api/listing/create', {
+            const res= await fetch(`/api/listing/update/${params.listingId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -165,15 +181,15 @@ export default function CreaateListing() {
     }
   return (
     <main className='max-w-4xl mx-auto p-3 gap-4'>
-        <h1 className='text-3xl font-semibold text-center my-7'>Create a Listing</h1>
+        <h1 className='text-3xl font-semibold text-center my-7'>Update a Listing</h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
             <div className="flex flex-col gap-4 flex-1" >
-                <input onChange={handleChange} type="text" placeholder='Name' id='name' className='border p-3 rounded-lg' maxLength={64} minLength={10} required/>
-                <textarea type="text" onChange={handleChange} placeholder='Description' id='description' className='border p-3 rounded-lg' required/>
-                <input type="text" onChange={handleChange} placeholder='Address' id='address' className='border p-3 rounded-lg' required/>
+                <input value={formData.name} onChange={handleChange} type="text" placeholder='Name' id='name' className='border p-3 rounded-lg' maxLength={64} minLength={10} required/>
+                <textarea value={formData.description} type="text" onChange={handleChange} placeholder='Description' id='description' className='border p-3 rounded-lg' required/>
+                <input value={formData.address} type="text" onChange={handleChange} placeholder='Address' id='address' className='border p-3 rounded-lg' required/>
                 <div className="flex gap-6 flex-wrap">
                     <div className=" flex gap-2">
-                        <input onChange={handleChange} checked={formData.type==='sale'} type="checkbox" id='type' className='w-5' value="sale" />
+                        <input  onChange={handleChange} checked={formData.type==='sale'} type="checkbox" id='type' className='w-5' value="sale" />
                         <span>Sale</span>
                     </div>
                     <div className=" flex gap-2">
@@ -181,29 +197,29 @@ export default function CreaateListing() {
                         <span>Rent</span>
                     </div>
                     <div className=" flex gap-2">
-                        <input type="checkbox" onChange={handleChange} id='parking' className='w-5'/>
+                        <input checked={formData.offer} type="checkbox" onChange={handleChange} id='parking' className='w-5'/>
                         <span>Parking</span>
                     </div>
                     <div className=" flex gap-2">
-                        <input type="checkbox" onChange={handleChange} id='furnished' className='w-5'/>
+                        <input checked={formData.furnished} type="checkbox" onChange={handleChange} id='furnished' className='w-5'/>
                         <span>Furnished</span>
                     </div>
                     <div className=" flex gap-2">
-                        <input type="checkbox" id='offer' onChange={handleChange} className='w-5'/>
+                        <input checked={formData.offer} type="checkbox" id='offer' onChange={handleChange} className='w-5'/>
                         <span>Offer</span>
                     </div>
                 </div>
                 <div className="flex flex-wrap gap-6">
                     <div className="flex items-center gap-2">
-                        <input type="number" onChange={handleChange} id='bedrooms' min={1} max={10} required className='p-3 border-gray-300 rounded-lg'/>
+                        <input value={formData.bedrooms} type="number" onChange={handleChange} id='bedrooms' min={1} max={10} required className='p-3 border-gray-300 rounded-lg'/>
                         <span>Bedrooms</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <input type="number" onChange={handleChange} id='bathrooms' min={1} max={10} required className='p-3 border-gray-300 rounded-lg'/>
+                        <input value={formData.bathrooms} type="number" onChange={handleChange} id='bathrooms' min={1} max={10} required className='p-3 border-gray-300 rounded-lg'/>
                         <span>Bathrooms</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <input type="number" id='regularprice' onChange={handleChange}  required className='p-3 border-gray-300 rounded-lg'/>
+                        <input value={formData.regularprice} type="number" id='regularprice' onChange={handleChange}  required className='p-3 border-gray-300 rounded-lg'/>
                         <div className="flex flex-col items-center">
                         <p>Regular Price</p>
                         <span hidden={formData.type!=='rent'} className='text-gray-500 text-xs'>$/Month</span>
@@ -211,7 +227,7 @@ export default function CreaateListing() {
                     </div>
                     {formData.offer && (
                         <div className="flex items-center gap-2">
-                        <input onChange={handleChange} type="number" id='discountprice' required className='p-3 border-gray-300 rounded-lg'/>
+                        <input value={formData.discountprice} onChange={handleChange} type="number" id='discountprice' required className='p-3 border-gray-300 rounded-lg'/>
                         <div className="flex flex-col items-center">
                         <p>Discounted Price</p>
                         <span hidden={formData.type!=='rent'} className='text-gray-500 text-xs'>$/Month</span>
@@ -243,7 +259,7 @@ export default function CreaateListing() {
                     </div>
                 )
             }
-            <button className='p-3 m-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-90 disabled:opacity-75'>{loading ? 'Loading...' : 'Create Listing'}</button>
+            <button className='p-3 m-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-90 disabled:opacity-75'>{loading ? 'Loading...' : 'Update Listing'}</button>
             {error && <p className='text-red-500'>{error}</p>}
             </div>
         </form>

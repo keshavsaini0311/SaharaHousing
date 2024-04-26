@@ -72,12 +72,13 @@ export default function Profile() {
       const data = await res.json()
       console.log(data);
       if (data.success === false) {
-
-        dispatch(updateUserFailure(data.message))
-        if(error!==null &&data.message.indexOf("duplicate")!==-1){
+        if(data.message.indexOf("duplicate")!==-1){
           setError("Username or Email already exists")
-        }else{
-          setError(data.message)}
+          return
+        }
+          dispatch(updateUserFailure(data.message))
+          setError(data.message)
+        
         setUpdateSuccess(false)
         return
       }
@@ -206,7 +207,11 @@ export default function Profile() {
           </Link>
           <div className="flex flex-col p-3">
             <button onClick={()=>handleDeleteListing(listing._id)} className='text-red-500 uppercase'>Delete</button>
-            <button className='text-green-500 uppercase'>edit</button>
+            <button className='text-green-500 uppercase'>
+              <Link to={`/update-listing/${listing._id}`}>
+              edit
+              </Link>
+              </button>
           </div>
         </div>
       ))
