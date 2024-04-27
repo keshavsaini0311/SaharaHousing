@@ -16,7 +16,7 @@ export default function Search() {
         sort: 'created_at',
         order: 'desc',
     })
-    console.log(listings);
+    const[showmore , setShowMore] = useState(false);
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const searchTermFromUrl = urlParams.get('searchTerm');
@@ -46,6 +46,9 @@ export default function Search() {
         const res = await fetch(`/api/listing/get?${searchQuery}`);
         const data = await res.json();
         
+        if(data.length > 8){
+            setShowMore(true);
+        }
         setListings(data);
         setLoading(false);
     }
@@ -89,6 +92,20 @@ export default function Search() {
         const searchQuery = urlParams.toString();
         navigate(`/search?${searchQuery}`);
         
+    }
+
+    const handleShowMore = async() => {
+        const number = listings.length;
+        const urlParams = new URLSearchParams(location.search);
+        const start = number;
+        urlParams.set('startIndex', start);
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`/api/listing/get?${searchQuery}`);
+        const data = await res.json();
+        setListings([...listings, ...data]);
+        if(data.length < 8){
+            setShowMore(false);
+        }
     }
 
   return (
@@ -135,7 +152,7 @@ export default function Search() {
                         <option value="regularprice_desc">Price High to Low</option>
                         <option value="regularprice_asc">Price Low to High</option>
                         <option value="created_at_desc">Latest</option>
-                        <option value="created_at_asc">Oldest</option>
+                        
                     </select>
                 </div>
                 <button className='bg-slate-700 text-white text-center uppercase p-3 rounded-lg hover:bg-slate-800' type="submit">Search</button>
@@ -152,12 +169,13 @@ export default function Search() {
                 {
                     !loading && listings && listings.map((listing)=>(
                             <Listingitem key={listing._id} listing={listing}/>
-                            
-                        
                     ))
                 }
-           
+                
             </div>
+                {showmore && (
+                    <button onClick={handleShowMore} className='ml-6 bg-green-700 text-white text-center uppercase p-3 rounded-lg hover:underline'>Show More</button>
+                )}
         </div>
     </div>
   )
