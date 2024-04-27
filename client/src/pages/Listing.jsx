@@ -61,12 +61,15 @@ export default function Listing() {
             <div className="text-center ml-2 flex p-3 items-center carousel rounded-box w-full">
                 {
                     listing.imageurls.map((url, index) => (
-                        <div className=" text-center ml-6 carousel-item w-full h-max" key={index}>
+                        <div className=" text-center ml-6 carousel-item w-full h-max" key={index} >
                             <img src={url} className="h-200 ml-auto mr-auto object-contain rounded-box"  />
+                            
                         </div> 
                     ))
                 }
+
             </div>
+        
              <div className='fixed top-[20%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
              <FaShare
                className='text-slate-500'
