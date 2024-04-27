@@ -42,7 +42,7 @@ export default function Listing() {
         }
         fetchListing()
     },[params.ListingId])
-
+    const regularprice= listing && listing.regularprice.toLocaleString('en-US')
 
   return (
     <main>
@@ -67,7 +67,7 @@ export default function Listing() {
                     ))
                 }
             </div>
-             <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
+             <div className='fixed top-[20%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
              <FaShare
                className='text-slate-500'
                onClick={() => {
@@ -88,7 +88,10 @@ export default function Listing() {
              <p className='text-2xl font-semibold capitalize '>
                {listing.name} - ${' '}
                {listing.offer
-                 ? listing.discountprice.toLocaleString('en-US')
+                 ? <span className="">
+                  <span className='line-through opacity-50 '>{listing.regularprice.toLocaleString('en-US')}</span>{"  $"}
+                  <span>{listing.discountprice.toLocaleString('en-US')}</span>
+                 </span>
                  : listing.regularprice.toLocaleString('en-US')}
                {listing.type === 'rent' && ' / month'}
              </p>
@@ -102,7 +105,7 @@ export default function Listing() {
                </p>
                {listing.offer && (
                  <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                   ${+listing.regularPrice - +listing.discountPrice} OFF
+                   ${+listing.regularprice - +listing.discountprice} OFF
                  </p>
                )}
              </div>
