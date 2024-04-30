@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import { useEffect } from 'react'
 import { BrowserRouter ,Routes,Route} from 'react-router-dom'
 import Home from './pages/Home'
 import Signup from './pages/Signup'
@@ -12,9 +12,15 @@ import CreaateListing from './pages/CreaateListing'
 import Updatelisting from './pages/Updatelisting'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
-
+import Favicon from "react-favicon";
 export default function App() {
-  return <BrowserRouter>
+  useEffect(() => {
+    document.title = "Sahara Housing"
+  }, [])
+
+  return (
+  <BrowserRouter>
+  <Favicon  url="../favicon-16x16.png" />
   <Header/>
   <Routes>
     <Route path='/' element={<Home />}/>
@@ -30,5 +36,6 @@ export default function App() {
     </Route>
   </Routes>
   </BrowserRouter>
+  )
 }
 

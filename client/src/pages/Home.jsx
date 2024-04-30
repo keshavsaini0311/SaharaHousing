@@ -50,7 +50,7 @@ export default function Home() {
         <script src="https://cdn.tailwindcss.com"></script>
         
         <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-          <h1 className="text-5xl font-bold text-slate-700">Find your next <span className='text-slate-500'>home</span><br /> here</h1>
+          <h1 className="text-4xl font-bold text-slate-700">Find your next <span className='text-slate-500'>home</span><br /> here</h1>
           <div className="text-gray-400 ">
           Discover your dream home with ease at SaharaHousing. Our intuitive search features and comprehensive listings make finding your perfect home a breeze. <br /> Whether you're searching for a cozy apartment, a spacious family house, or a luxurious estate, we've got you covered. Explore neighborhoods, filter by amenities, and connect with experienced agents who are dedicated to helping you find the home that suits your lifestyle and preferences. <br />Welcome home.
           </div>
@@ -82,7 +82,7 @@ export default function Home() {
         {offerListings && offerListings.length > 0 && (
           <div className=''>
             <div className='my-3'>
-              <h2 className='text-2xl font-semibold text-slate-600'>Recent offers</h2>
+              <h1 className='text-3xl font-semibold text-slate-800'>Recent offers</h1>
               <Link className='text-sm text-blue-800 hover:underline' to={'/search?offer=true'}>Show more offers</Link>
             </div>
             <div className='flex flex-wrap gap-4'>
@@ -95,7 +95,7 @@ export default function Home() {
         {rentListings && rentListings.length > 0 && (
           <div className=''>
             <div className='my-3'>
-              <h2 className='text-2xl font-semibold text-slate-600'>Recent places for rent</h2>
+              <h2 className='text-3xl font-semibold text-slate-800'>Recent places for rent</h2>
               <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=rent'}>Show more places for rent</Link>
             </div>
             <div className='flex flex-wrap gap-4'>
@@ -108,7 +108,7 @@ export default function Home() {
         {saleListings && saleListings.length > 0 && (
           <div className=''>
             <div className='my-3'>
-              <h2 className='text-2xl font-semibold text-slate-600'>Recent places for sale</h2>
+              <h2 className='text-3xl font-semibold text-slate-800'>Recent places for sale</h2>
               <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=sale'}>Show more places for sale</Link>
             </div>
             <div className='flex flex-wrap gap-4'>

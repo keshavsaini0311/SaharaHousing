@@ -32,7 +32,7 @@ export default function Listingitem(listing) {
                 </span>
             ) : (
                 <span>
-                    <span className="text-2xl font-semibold">${listing.listing.regularprice}</span><span></span>{listing.listing.type==='rent' &&"/Month" }
+                    <span className="text-2xl font-semibold">${listing.listing.regularprice.toLocaleString('en-US')}</span>{listing.listing.type==='rent' &&"/Month" }
                 </span>
             )}
             <div className="text-slate-700 flex items-center gap-3">

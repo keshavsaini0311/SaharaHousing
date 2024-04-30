@@ -33,12 +33,14 @@ export default function Header() {
         <span className='text-slate-700'>Housing</span>
     </h1>
     </Link>
-    <form onSubmit={handlesubmit} className='w-24 sm:w-64 bg-slate-100 p-3 rounded-lg flex items-center' action="">
-        <input value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder='Search...' type="text" name="" id="" className='bg-transparent'/>
-        <button >
+    <div className='rounded-lg bg-slate-100 flex sm:flex-row items-center'>
+    <form onSubmit={handlesubmit} className='  p-3 rounded-lg ' action="">
+        <input value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder='Search...' type="text" name="" id="" className='bg-slate-100 w-20 sm:w-64 outline-none bg-transparent'/>
+        <button className='' >
         <FaSearch className=' text-slate-600'/>
         </button>
     </form>
+    </div>
     <ul className=' flex gap-4'>
     <Link to='/'>
         <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
