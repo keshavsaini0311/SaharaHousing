@@ -54,7 +54,7 @@ export default function Home() {
           <div className="text-gray-400 ">
           Discover your dream home with ease at SaharaHousing. Our intuitive search features and comprehensive listings make finding your perfect home a breeze. <br /> Whether you're searching for a cozy apartment, a spacious family house, or a luxurious estate, we've got you covered. Explore neighborhoods, filter by amenities, and connect with experienced agents who are dedicated to helping you find the home that suits your lifestyle and preferences. <br />Welcome home.
           </div>
-          <Link to={'/search'} className="text-xs sm:text-sm text-blue-600 font-bold"> Let's Search your new home</Link>
+          <Link to={'/search'} className=" text-xs sm:text-sm text-blue-600 font-bold"> Let's Search your new home</Link>
         </div>
 
         {offerListings && offerListings.length > 0 && (

@@ -13,14 +13,20 @@ import Updatelisting from './pages/Updatelisting'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
 import Favicon from "react-favicon";
+import { createNightowl } from '@bufferhead/nightowl'
 export default function App() {
   useEffect(() => {
     document.title = "Sahara Housing"
   }, [])
-
+  
+  createNightowl({
+    defaultMode: 'dark',
+    toggleButtonMode: 'newState'
+})
   return (
   <BrowserRouter>
   <Favicon  url="../favicon-16x16.png" />
+
   <Header/>
   <Routes>
     <Route path='/' element={<Home />}/>

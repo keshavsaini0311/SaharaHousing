@@ -45,7 +45,7 @@ export default function Listing() {
     const regularprice= listing && listing.regularprice.toLocaleString('en-US')
 
   return (
-    <main>
+    <main className="w-full m-0">
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>

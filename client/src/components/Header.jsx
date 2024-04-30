@@ -9,6 +9,7 @@ export default function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
+  
 
     const handlesubmit=(e)=>{
         e.preventDefault();
@@ -25,7 +26,7 @@ export default function Header() {
         }
     }, [window.location.search]);
   return (
-   <header className='z-100 justify-between bg-slate-200 shadow-md sticky top-0 w-full '>
+   <header className='z-50 justify-between bg-slate-200 shadow-md sticky top-0 w-full '>
     <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
     <Link to='/'>
     <h1 className='font-bold-text-sm sm:text-xl flex flex-wrap'>
