@@ -6,7 +6,6 @@ import authRouter from './routes/auth.route.js'
 import cookieParser from 'cookie-parser';
 import listingRouter from './routes/listing.route.js';
 import path from 'path';
-import cors from 'cors';
 import job from "./cron/cron.js";
 
 dotenv.config();
