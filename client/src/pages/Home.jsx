@@ -63,12 +63,15 @@ export default function Home() {
                 {
                     offerListings.map((listing, index) => (
                       <>
-                        <div className=" text-center ml-6 carousel-item w-full h-[400px] mx-auto" key={index} >
-                            <img src={listing.imageurls[0]} className="h-200 ml-auto mr-auto object-contain rounded-box" id={`item${index}`} />
-                        </div> 
-                        <div className="flex justify-center w-full py-2 gap-2">
-                        
-                        </div>
+                        <div id={index%offerListings.length} className="mt-10 carousel-item relative w-full" key={index}>
+                      <img
+                        src={listing.imageurls[0]}
+                        className="mx-auto h-[400px]" />
+                      <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href={(index-1) >= 0 ? `#${index-1}` : `#${offerListings.length-1}`} className="btn btn-circle">❮</a>
+                        <a href={(index+1) < offerListings.length ? `#${index+1}` : `#${0}`} className="btn btn-circle">❯</a>
+                      </div>
+                    </div>
                       </>
                     ))
                 }

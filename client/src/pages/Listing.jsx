@@ -61,10 +61,15 @@ export default function Listing() {
             <div className="text-center ml-2 flex p-3 items-center carousel rounded-box w-full">
                 {
                     listing.imageurls.map((url, index) => (
-                        <div className="h-[400px] text-center ml-6 carousel-item w-full mx-auto" key={index} >
-                            <img src={url} className=" ml-auto mr-auto object-contain rounded-box"  />
-                            
-                        </div> 
+                      <div id={index%listing.imageurls.length} className="hidden duration-700 ease-in-out mt-10 carousel-item relative w-full" key={index}>
+                      <img
+                        src={url}
+                        className="mx-auto h-[400px]" />
+                      <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href={(index-1) >= 0 ? `#${index-1}` : `#${listing.imageurls.length-1}`} className="btn btn-circle">❮</a>
+                        <a href={(index+1) < listing.imageurls.length ? `#${index+1}` : `#${0}`} className="btn btn-circle">❯</a>
+                      </div>
+                    </div>
                     ))
                 }
 
@@ -78,7 +83,7 @@ export default function Listing() {
                  setCopied(true);
                  setTimeout(() => {
                    setCopied(false);
-                 }, 2000);
+                 }, 1000);
                }}
              />
            </div>

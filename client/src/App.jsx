@@ -14,6 +14,7 @@ import Listing from './pages/Listing'
 import Search from './pages/Search'
 import Favicon from "react-favicon";
 import { createNightowl } from '@bufferhead/nightowl'
+import "./App.css"
 export default function App() {
   useEffect(() => {
     document.title = "Sahara Housing"
