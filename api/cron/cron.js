@@ -1,9 +1,9 @@
 import cron from "cron";
 import https from "https";
 
-const URL = "https://saharahousing.onrender.com/";
+const URL = "https://social-media-9ll3.onrender.com/";
 
-const job = new cron.CronJob("*/5 * * * *", function () {
+const job = new cron.CronJob("*/30 * * * *", function () {
 	https
 		.get(URL, (res) => {
 			if (res.statusCode === 200) {
